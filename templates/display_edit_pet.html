@@ -1,0 +1,43 @@
+<html>
+<body>
+<h1>{{pet.name}}</h1>
+
+{% for msg in get_flashed_messages() %}
+  <div>{{ msg }}</div>
+{% endfor %}
+
+<div> 
+    <img src="{{pet.photo_url}}" alt="">  
+    <p>Age: {{pet.age}} <br>
+        <!-- {% if pet.available %}
+            <b>is available!</b>
+        {% endif %} -->
+        Species: {{pet.species}}<br>
+    </p>
+</div>
+
+
+<form method="POST">
+<!-- CRSF tag -->
+  {{ form.hidden_tag() }}
+
+  {% for field in form
+         if field.widget.input_type != 'hidden' %}
+
+    <!-- show the input fields -->
+  <p>
+    {{ field.label }}
+    {{ field }}
+<!-- show errors if they occur, right next to the input field -->
+    {% for error in field.errors %}
+        {{ error }}
+    {% endfor %}
+  </p>
+  {% endfor %}
+
+  <button type="submit">Submit</button>
+
+</form>
+<a href='/'>...Go back to Homepage</a>
+</body>
+</html>
