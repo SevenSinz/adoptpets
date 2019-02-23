@@ -7,6 +7,7 @@ from wtforms import StringField, FloatField, IntegerField, BooleanField, RadioFi
 from wtforms.validators import InputRequired, Optional, url, NumberRange
 from models import Pet, connect_db, db
 
+
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "abc123"
