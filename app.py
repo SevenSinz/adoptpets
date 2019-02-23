@@ -1,11 +1,8 @@
 from flask import Flask, render_template, redirect
-# , flash
-from flask_wtf import FlaskForm
-from flask_wtf.html5 import URLField
 from flask_debugtoolbar import DebugToolbarExtension
-from wtforms import StringField, FloatField, IntegerField, BooleanField, RadioField
-from wtforms.validators import InputRequired, Optional, url, NumberRange
 from models import Pet, connect_db, db
+from petapi import get_random_pet
+from forms import EditPetForm, AddPetForm
 
 
 app = Flask(__name__)
@@ -21,36 +18,12 @@ connect_db(app)
 # creating and validating a FlaskForm class to load the add pet HTML form
 
 
-class AddPetForm(FlaskForm):
-    """" Form for Adding pets to the pets data table"""
-    name = StringField("Pet's name: ",
-                       validators=[InputRequired()])
-    species = RadioField("What species of Pet? ",
-                         validators=[InputRequired()],
-                         choices=[('cat', 'Cat'),
-                                  ('dog', 'Dog'),
-                                  ('porcupine', 'Porcupine')])
-    photo_url = URLField("Photo URL: ",
-                         validators=[url(), Optional(strip_whitespace=True)])
-    age = IntegerField("How old is the pet? ",
-                       validators=[Optional(), NumberRange(min=0, max=30)])
-    notes = StringField("Notes: ")
-    available = BooleanField("Is this pet available for adoption? ")
- 
-
-class EditPetForm(FlaskForm):
-    '''Form for editing pet data from pets table'''
-    photo_url = URLField("Photo URL: ",
-                         validators=[url(), Optional(strip_whitespace=True)])
-    notes = StringField("Notes: ")
-    available = BooleanField("Is this pet available for adoption? ")
-
-
 @app.route('/')
 def show_homepage():
     '''homepage'''
     pets = Pet.query.all()
-    return render_template('home.html', pets=pets)
+    random_pet = get_random_pet()
+    return render_template('home.html', pets=pets, random_pet=random_pet)
 
 
 @app.route('/add', methods=['GET', 'POST'])    

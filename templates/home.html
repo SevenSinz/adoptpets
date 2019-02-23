@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
+    <form action="/add">
+        <br>
+        <button>Add a Pet</button>
+    </form>
+
     <h1>Pets at our Shelter!</h1>
     {% for pet in pets %}
         <div> 
@@ -13,9 +17,14 @@
             </p>
         </div>
     {% endfor %}
+    
+    <h1>Random Pet from our partners at Pet Finder</h1>
+        <div> 
+            <img src="{{random_pet.photo_url}}" alt="">  
+            <p>{{random_pet.name}}<br>
+                Age: {{random_pet.age}}
+            </p>
+        </div>
+    
 
-    <form action="/add">
-        <br>
-        <button>Add a Pet</button>
-    </form>
 {% endblock %}

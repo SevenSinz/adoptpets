@@ -5,20 +5,22 @@ BASE_URL = "http://api.petfinder.com"
 
 
 def get_random_pet():
-""" make the GET API call to get a random pet,
-basic info in json format
-we return the name, age, and phot_url of the pet to display on homepage"""
+    """ make the GET API call to get a random pet,
+    basic info in json format
+    we return the name, age, and phot_url of the pet to display on homepage"""
 
-    response = requests.get(f"{BASE_URL}/pet.getRandom", 
-                       params={ "key": PETFINDER_API_KEY, 
-                                "output" : "basic",
-                                "format" : "json"})
-    pet_data = response.json()
-    pet_name = pet_data['petfinder']['pet']['name']['$t']
-    pet_age = pet_data['petfinder']['pet']['age']['$t']
-    pet_photo_url = pet_data['petfinder']['pet']['media']['photos']['photo'][3]['$t']
+    response = requests.get(f"{BASE_URL}/pet.getRandom",
+                            params={"key": PETFINDER_API_KEY,
+                                    "output": "basic",
+                                    "format": "json"})
+    response_data = response.json()
 
-   
-    return pet_phot_url
+    pet_profile = response_data['petfinder']['pet']
+
+    pet_data = {"name": pet_profile['name']['$t'],
+                "age": pet_profile['age']['$t'],
+                "photo_url": pet_profile['media']['photos']['photo'][3]['$t']}
+
+    return pet_data
 
 
